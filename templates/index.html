@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+
+    <script>
+       function change() {
+            var box = document.getElementById("box");
+            var l = document.getElementById("l");
+            var tcl = document.getElementById("tcl");
+            if (box.checked == true) {
+                l.style.display = 'block';
+                tcl.style.display = 'block';
+            }else{
+                l.style.display = "none";
+                tcl.style.display = 'none';
+            }
+       }
+
+       function valid_check(){
+           var N = document.forms["InputForm"]["N"].value;
+           var C = document.forms["InputForm"]["C"].value;
+           var p0 = document.forms["InputForm"]["p0"].value;
+           var T = document.forms["InputForm"]["T"].value;
+           var alpha_in = document.forms["InputForm"]["alpha_in"].value;
+           var alpha_out = document.forms["InputForm"]["alpha_out"].value;
+           var box = document.getElementById("box")
+           if(box.checked == true) {
+               var l = document.forms["InputForm"]["l"].value;
+           }
+           if(N == "") {
+               alert('The total population is required.');
+               return false;
+           }
+           if(!(/(^[1-9]\d*$)/.test(N))) {
+               alert('The total population must be a positive integer.');
+               return false;
+           }
+           if(C == "") {
+               alert('The test capacity per person is required.');
+               return false;
+           }
+           if(!(/(^[1-9]\d*$)/.test(C))) {
+               alert('The test capacity per person must be a positive integer.');
+               return false;
+           }
+           if(p0 == "") {
+               alert('The initial prevalence rate is required.');
+               return false;
+           }
+           if(!(/^0\.\d*[^0]\d*$/.test(p0))) {
+               alert('The initial prevalence rate must be a real number in range (0,1).');
+               return false;
+           }
+           if(T == "") {
+               alert('The length of time horizon is required.');
+               return false;
+           }
+           if(!(/(^[1-9]\d*$)/.test(T))) {
+               alert('The length of time horizon must be a positive integer.');
+               return false;
+           }
+           if(alpha_in == "") {
+               alert('The inside infection rate is required.');
+               return false;
+           }
+           if(!(/^0\.\d*[^0]\d*$/.test(alpha_in))) {
+               alert('The inside infection rate must be a real number in range (0,1).');
+               return false;
+           }
+           if(alpha_out == "") {
+               alert('The outside prevalence rate is required.');
+               return false;
+           }
+           if(!(/^0\.\d*[^0]\d*$/.test(alpha_out))) {
+               alert('The outside prevalence rate must be a real number in range (0,1).');
+               return false;
+           }
+           if(box.checked == true) {
+               if (l == "") {
+                   alert('The testing cycle length is required.');
+                   return false;
+               }
+               if (!(/(^[1-9]\d*$)/.test(l))) {
+                   alert('The testing cycle length must be a positive integer.');
+                   return false;
+               }
+           }
+       }
+</script>
+
+</head>
+<body bgcolor="#d0d0d0">
+<div id = 'header'>
+<h1 align = 'center'>COVID-19 Testing Protocol Calculator</h1>
+    <style>
+    .yongyin {
+     width:100px;
+     text-align:center;
+     line-height:100%;
+     padding:0.3em;
+     font:60px Arial,sans-serif bold;
+     font-style:normal;
+     text-decoration:none;
+     margin:5px;
+     vertical-align:text-bottom;
+     zoom:1;
+     outline:none;
+     font-size-adjust:none;
+     font-stretch:normal;
+     border-radius:50px;
+     box-shadow:0px 1px 2px rgba(0,0,0,0.2);
+     text-shadow:0px 1px 1px rgba(0,0,0,0.3);
+     color:#fefee9;
+     border:0.2px solid #2299ff;
+     background-repeat:repeat;
+     background-size:auto;
+     background-origin:padding-box;
+     background-clip:padding-box;
+     background-color:#3399ff;
+     background: linear-gradient(to bottom, #eeeff9 0%,#3399ff 100%);
+}
+
+.yongyin:hover {
+    background: #268DFF;
+}
+</style>
+
+    <style>
+        .mt_10{
+            margin-top: 20px;
+        }
+        .error_p2{
+            background-color: #FF6900;
+            color: white;
+            font-size: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            display: none;
+        }
+        .error_p2 i {
+            margin-right: 5px;
+        }
+        </style>
+
+
+</div>
+
+<input type = 'checkbox' name = 'select_mode' value = 'test_cycle_length' id = 'box' onclick = "change()"/> Do you want to specify the testing cycle length?
+
+<form name = "InputForm" action = "." onsubmit = "return valid_check()" method = "post">{% csrf_token %}
+    Total population: <input type = 'text' name = 'N' style='width:700px; height:30px;' placeholder = 'Please enter the total population'><br>
+    Testing capacity per person: <input type = 'text' name = 'C' style='width:700px; height:30px;' placeholder = 'Please enter testing capacity per person within one day'><br>
+    Initial prevalence rate: <input type = 'text' name = 'p0' style='width:700px; height:30px;' placeholder = 'Please enter the prevalence rate'><br>
+    Length of time horizon: <input type = 'text' name = 'T' id = 'T' style="width:700px; height:30px;" placeholder = 'Please enter the length of time horizon'><br>
+    Inside infection rate: <input type = 'text' name = 'alpha_in' id = 'alpha_in' style="width:700px; height:30px;" placeholder = 'Please enter the infection rate inside the community'><br>
+    Outside infection rate: <input type = 'text' name = 'alpha_out' id = 'alpha_out' style="width:700px; height:30px;" placeholder = 'Please enter the infection rate outside the community'><br>
+    <font style = "display:none" id = 'tcl' >Testing cycle length: </font> <input type = 'text' name = 'l' id = 'l' style="display: none; width:700px; height:30px;" placeholder = 'Please enter the length of one testing cycle'><br>
+    <input type = 'submit' value = 'Submit' style = "width:100px; height:30px"></input>
+</form>
+
+<div id="load" style="display: none;" >Please wait...</div>
+<div id = 'section'>
+    <h3>User Guide</h3>
+    <p> In the calculation, we all assume the false positive rate for any single PCR test is 0.01, this is a factor
+    determined by the testing technology. We assume the group testing method is square-array method.</p>
+
+    <p>  This website gives our suggestion of how to manage your test protocol in a given time horizon to make duplicate
+    tests on the population, with the virus continuing to spread. We assume that in one testing cycle, each non-quarantined individual
+    get exactly one test, and typically we test the same number of individuals in each day within one testing cycle. Once an individual
+    is deemed to be positive, it will be quarantined and will never appear in any test in the following days. If you check the
+        checkbox, i.e., you prefer to specify the testing cycle length, then
+    You need to provide <b>the length of time horizon</b>, <b>the total population</b>, <b>the testing capacity per person</b>, <b>the initial prevalence rate</b>,
+        <b>the infection rate inside the community</b>, <b>the infection rate outside the community</b> and <b>testing cycle length</b>.
+        We will provide for you with the <b>optimal pool size</b> each day, the <b>expected
+            daily number of test</b>, the <b>expected daily number of true positives detected</b>, the <b>expected daily number of false positives
+        </b> and the <b>expected daily number of false negatives detected</b>. If you prefer not specifying the testing cycle length,
+        then we treat this request as you want to find the optimal testing cycle length. Therefore, you need to provide all things but the
+        testing cycle length as above, and we will provide for you the optimal testing cycle length, together with all results of performance
+        as mentioned above. </p>
+    <p> Note that you can also consider the one-day testing case by (i) check the checkbox, (ii) set the time horizon to be 1, (iii)
+        set the testing cycle length to be 1, (iv) alpha_in and alpha_out can be filled by any number in (0,1). Then the calculator will
+        find the optimal pool size for testing a number of people within one day, together with other performance measures.
+    </p>
+    </div>
+
+
+</body>
+</html>

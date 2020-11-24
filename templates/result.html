@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+</head>
+
+<body bgcolor="#d0d0d0">
+<h1 align = 'center'>COVID-19 Testing Protocol Calculator</h1>
+<h2>Result</h2>
+<div>{{ Result_Message|safe }}
+    <br>
+    <br>
+</div>
+
+<form name = 'BackToIndex' action = '.' method = 'get'>{% csrf_token %}
+    <input type = 'submit' value = 'Back' name = 'back' style = "width:100px; height:30px"></input>
+</form>
+</body>
+</html>
