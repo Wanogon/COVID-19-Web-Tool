@@ -5,6 +5,8 @@ This is the project for developing a web tool applying the methods and results i
 To run this project, you need to import 'django' package in your python. 
 
 # Steps for running this server and test
+For running this server, I suggest using PyCharm.
+
 1. Install django package in your python environment.
 2. Download all files in this respository and unzip it.
 3. You should get a folder named "COVID-19-web-tool-main", change the terminal path of your python environment to this folder.
